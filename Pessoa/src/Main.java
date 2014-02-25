@@ -22,4 +22,5 @@ public class Main {
 		System.out.println("Nome: " + pessoa.getNome());
 		System.out.println("Sexo: " + pessoa.getSexo());
 		System.out.println("Idade: " + pessoa.getIdade() + " anos");
+	}
 } 
