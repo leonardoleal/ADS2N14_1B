@@ -27,13 +27,38 @@ public class Carta
         }
     }
     
+    public char getNaipe()
+    {
+    	return this.naipe;
+    }
+
     public int getValor()
     {
         return this.valor;
     }
-    
-    public char getNaipe()
-    {
-        return this.naipe;
-    }
+
+    public String getValorLegenda() {
+    	String legenda;
+
+		switch (this.valor) {
+			case 1:
+				legenda = "A";
+				break;
+			case 11:
+				legenda = "J";
+				break;
+			case 12:
+				legenda = "Q";
+				break;
+			case 13:
+				legenda = "K";
+				break;
+				
+			default:
+				legenda = Integer.toString(valor);
+				break;
+		}
+
+		return legenda;
+	}
 }

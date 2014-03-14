@@ -52,8 +52,8 @@ public class JogoController {
 	
 	private String showCarta(Carta carta)
 	{
-		return String.format("%d%c",
-						     carta.getValor(),
+		return String.format("%s%c",
+						     carta.getValorLegenda(),
 						     carta.getNaipe()
 		);
 	}
