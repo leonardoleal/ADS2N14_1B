@@ -25,7 +25,7 @@ public class JogoView {
 			out.println("Turno JOGADOR " + controller.getNomeJogador());
 			out.println("Carta na mesa: " + controller.showMesa());
 
-			out.print("Digite 'jogar' para jogar,"
+			out.println("Digite 'jogar' para jogar,"
 					+ "'pular' para passar a vez e"
 					+ "'pontos' para visualizar a sua pontuação: "
 			);
@@ -48,6 +48,8 @@ public class JogoView {
 
 			controller.nextJogador();
 		}
+
+		out.println(controller.showVencedor());
 	}
 
 	private static void clearConsole()

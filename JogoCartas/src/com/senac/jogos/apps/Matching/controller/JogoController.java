@@ -113,7 +113,27 @@ public class JogoController {
 		return true;
 	}
 
-	public String getNomeJogador() {
+	public String getNomeJogador()
+	{
 		return this.getJogador().getNome();
+	}
+
+	public String showVencedor()
+	{
+		String msg = "";
+		String vencedor = this.getJogador().getNome();
+		int pontos = this.getJogador().getPontos();
+
+		for (Jogador jogador : jogadores) {
+			msg += jogador.getNome() + ": " + jogador.getPontos() + "\n";
+			if (jogador.getPontos() > pontos) {
+				pontos = jogador.getPontos();
+				vencedor = jogador.getNome();
+			}
+		}
+
+		msg += "Vencedor: Jogador " + vencedor;
+
+		return msg;
 	}
 }
