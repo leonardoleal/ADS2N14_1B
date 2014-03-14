@@ -2,13 +2,25 @@ package com.senac.jogos;
 
 public class Jogador {
 	
+	private String nome;
 	private int pontos;
+	private boolean pularTurno;
 	
-	public Jogador()
+	public Jogador(String nome)
 	{
-		pontos = 0;
+		this.nome = nome;
+		this.pontos = 0;
+		this.pularTurno = false;
 	}
 	
+	public String getNome() {
+		return nome;
+	}
+
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
 	public int getPontos()
 	{
 		return pontos;
@@ -28,7 +40,14 @@ public class Jogador {
 	{
 		this.pontos = pontos;
 	}
-	
+
+	public boolean getPularTurno() {
+		return this.pularTurno;
+	}
+
+	public void setPularTurno(boolean pularTurno) {
+		this.pularTurno = pularTurno;
+	}
 }
 
 

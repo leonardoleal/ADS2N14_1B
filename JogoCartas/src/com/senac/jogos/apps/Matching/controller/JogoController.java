@@ -23,16 +23,23 @@ public class JogoController {
 	{
 		int pontos = jogo.matchCarta(cartaJogador);
 		this.getJogador().addPontos(pontos);
+		this.getJogador().setPularTurno(false);
 
 		// descarta
 		jogo.setMesa(cartaJogador);
 		cartaJogador = null;
 	}
 	
-	public void passTurno()
+	public boolean passTurno()
 	{
-		// passar turno perde 1 ponto
-		this.getJogador().addPontos(-1);
+		if (!this.getJogador().getPularTurno()) {
+			// passar turno perde 1 ponto
+			this.getJogador().addPontos(-1);
+			this.getJogador().setPularTurno(true);
+			return true;
+		}
+
+		return false;
 	}
 	
 	public String showJogador()
@@ -72,7 +79,7 @@ public class JogoController {
 		return true;
 	}
 
-	public Jogador getJogador()
+	private Jogador getJogador()
 	{
 		return jogadores[jogadorRodada];
 	}
@@ -92,7 +99,7 @@ public class JogoController {
 		jogadores = new Jogador[numJogadores];
 
 		for (int i = 0; i < numJogadores; i++) {
-			jogadores[i] = new Jogador();
+			jogadores[i] = new Jogador(Integer.toString(i+1));
 		}
 	}
 
@@ -104,5 +111,9 @@ public class JogoController {
 		}
 
 		return true;
+	}
+
+	public String getNomeJogador() {
+		return this.getJogador().getNome();
 	}
 }

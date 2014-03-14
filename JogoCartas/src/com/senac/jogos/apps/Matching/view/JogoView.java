@@ -20,26 +20,47 @@ public class JogoView {
 		
 
 		while (controller.checkFimJogo()) {
-			out.println(
-					"Carta na mesa: " + controller.showMesa()
-			);
+			clearConsole();
 
-			out.print("Digite 'jogar' para jogar, 'pular' para passar a vez: ");
-			
+			out.println("Turno JOGADOR " + controller.getNomeJogador());
+			out.println("Carta na mesa: " + controller.showMesa());
+
+			out.print("Digite 'jogar' para jogar,"
+					+ "'pular' para passar a vez e"
+					+ "'pontos' para visualizar a sua pontuação: "
+			);
 			String comando = teclado.next();
-			if (comando.equalsIgnoreCase("JOGAR")) {
-				out.println(
-						"Carta do jogador: " + controller.showCartaJogador()
-				);
-				controller.playTurno();
+
+			if (comando.equalsIgnoreCase("PONTOS")) {
+				out.println(controller.showJogador());
+				continue;
+			} else if (comando.equalsIgnoreCase("PULAR")) {
+				if (!controller.passTurno()) {
+					out.print("Você já pulou a rodada anterior e"
+							+ "não é possível pular duas vezes seguidas."
+					);
+					continue;
+				}
 			} else {
-				controller.passTurno();
+				out.println("Carta do jogador: " + controller.showCartaJogador());
+				controller.playTurno();
 			}
-			
-			out.println(controller.showJogador());
 
 			controller.nextJogador();
 		}
+	}
+
+	private static void clearConsole()
+	{
+	    try {
+	        String os = System.getProperty("os.name");
+
+	        if (os.contains("Windows")) {
+	            Runtime.getRuntime().exec("cls");
+	        } else {
+	            Runtime.getRuntime().exec("clear");
+	        }
+	    } catch (Exception exception) {}
 	}
 	
 }
