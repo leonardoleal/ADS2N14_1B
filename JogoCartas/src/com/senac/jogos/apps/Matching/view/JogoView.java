@@ -7,30 +7,39 @@ import com.senac.jogos.apps.Matching.controller.JogoController;
 public class JogoView {
 
 	private static Scanner teclado = new Scanner(System.in);
-	
-	private static JogoController controller = new JogoController();
+	private static JogoController controller;
 	
 	public static void main(String[] args)
 	{
-		out.println(
-				"Carta na mesa: " + controller.showMesa()
-		);
+		controller = new JogoController();
+		out.print("Insira a quantidade de jogadores: (1-4) ");
 
-		out.print("Digite 'jogar' para jogar, 'pular' para passar a vez: ");
-		
-		String comando = teclado.next();
-		if (comando.equalsIgnoreCase("JOGAR")) {
-			out.println(
-					"Carta do jogador: " + controller.showCartaJogador()
-			);
-			controller.playTurno();
+		while (controller.validateNumJogadores(teclado.nextInt())) {
+			out.print("Valor inválido, insira novamente: (1-4) ");
 		}
-		// else pula o turno		
 		
-		out.println(
-				"Pontos do Jogador: " +
-				controller.showJogador()
-		);
+
+		while (controller.checkFimJogo()) {
+			out.println(
+					"Carta na mesa: " + controller.showMesa()
+			);
+
+			out.print("Digite 'jogar' para jogar, 'pular' para passar a vez: ");
+			
+			String comando = teclado.next();
+			if (comando.equalsIgnoreCase("JOGAR")) {
+				out.println(
+						"Carta do jogador: " + controller.showCartaJogador()
+				);
+				controller.playTurno();
+			} else {
+				controller.passTurno();
+			}
+			
+			out.println(controller.showJogador());
+
+			controller.nextJogador();
+		}
 	}
 	
 }

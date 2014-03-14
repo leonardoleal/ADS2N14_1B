@@ -1,30 +1,26 @@
 package com.senac.jogos.apps.Matching.model;
 
-import com.senac.jogos.Jogador;
 import com.senac.jogos.cartas.Baralho;
 import com.senac.jogos.cartas.Carta;
 
 public class MatchingCardGame {
 
 	private Baralho baralho;
-	private Jogador jogador;
-	
 	private Carta mesa;
 	
 	public MatchingCardGame()
 	{
-		baralho = new Baralho();
-		jogador = new Jogador();
-		mesa = baralho.drawCarta();
+		this.baralho = new Baralho();
+		this.mesa = baralho.drawCarta();
 	}
 	
 	public int matchCarta(Carta carta)
 	{
-		int score = -1;
+		int score = -2;
 		
-		if (carta.getNaipe() == mesa.getNaipe())
+		if (carta.getNaipe() == this.mesa.getNaipe())
 			score = 1;
-		if (carta.getValor() == mesa.getValor())
+		if (carta.getValor() == this.mesa.getValor())
 			score = 4;
 		
 		return score;
@@ -32,23 +28,25 @@ public class MatchingCardGame {
 	
 	public void setMesa(Carta carta)
 	{
-		mesa = carta;
+		this.mesa = carta;
 	}
 	
 	public Carta getMesa()
 	{
-		return mesa;
+		return this.mesa;
 	}
 
 	
 	public Carta drawCarta()
 	{
-		return baralho.drawCarta();
+		Carta carta = this.baralho.drawCarta();
+
+		return carta;
 	}
-	
-	public Jogador getJogador()
+
+	public int getNumCartas()
 	{
-		return jogador;
+		return this.baralho.getNumCartas();
 	}
 }
 

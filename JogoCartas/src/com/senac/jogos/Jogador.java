@@ -6,7 +6,7 @@ public class Jogador {
 	
 	public Jogador()
 	{
-		this.pontos = 0;
+		pontos = 0;
 	}
 	
 	public int getPontos()
@@ -16,12 +16,12 @@ public class Jogador {
 
 	public void addPontos(int amount)
 	{
-		pontos += amount;
+		this.pontos += amount;
 	}
 	
 	public void subtractPontos(int amount)
 	{
-		pontos -= amount;
+		this.pontos -= amount;
 	}
 	
 	public void setPontos(int pontos)

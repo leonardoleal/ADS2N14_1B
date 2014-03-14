@@ -20,17 +20,25 @@ public class Baralho {
 			}
 		}
 	}
+
+	public int getNumCartas()
+	{
+		return this.numCartas;
+	}
 	
 	public Carta drawCarta()
 	{
+		if (numCartas < 0) {
+			return null;
+		}
+
 		int carta = (int)(Math.random() * numCartas);
 		Carta sorteada = cartas[carta];
 
 		numCartas--;
-		
+
 		cartas[carta] = cartas[numCartas]; 
 		
 		return sorteada;
 	}
-		
 }
