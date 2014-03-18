@@ -1,11 +1,16 @@
 package com.senac.agenda.model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Pessoa {
 
 	private String nome;
 	private String endereco;
-	private Telefone telefone;
+	private List<Telefone> telefone;
 
-	public Pessoa() {}
+	public Pessoa() {
+		this.telefone = new ArrayList<Telefone>();
+	}
 }
