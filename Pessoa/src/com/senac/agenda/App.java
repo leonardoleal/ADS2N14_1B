@@ -6,7 +6,7 @@ public class App {
 
 	public static void main(String[] args) {
 		PessoaController controller = new PessoaController();
-		controller.gerarInformacoesAleatorias(50);
+		controller.gerarInformacoesAleatorias();
 		controller.mostrarInformacoesPessoas();
 	}
 } 

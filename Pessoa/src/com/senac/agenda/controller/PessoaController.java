@@ -1,5 +1,8 @@
 package com.senac.agenda.controller;
 
+import java.text.DecimalFormat;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Random;
 
 import com.senac.agenda.model.Pessoa;
@@ -35,8 +38,12 @@ public class PessoaController {
 		}
 	}
 
-	public void gerarInformacoesAleatorias(int quantPessoas) {
+	public void gerarInformacoesAleatorias() {
+		int cont = 0;
+		int quantPessoas = 50;
+		this.pessoas = new Pessoa[quantPessoas];
 
+		// cria array de nomes e embaralha
 		String nomes[] = {
 				"João", "Maria", "José",
 				"Matheus", "Jesus", "Abraão",
@@ -49,38 +56,52 @@ public class PessoaController {
 				"dos Santos", "dos Reis", "Silva Sauro", "Leal"
 		};
 
-		this.pessoas = new Pessoa[quantPessoas];
-		int cont = 0;
-
-		randomizaArray(nomes);
-		randomizaArray(sobrenomes);
+		Collections.shuffle(Arrays.asList(nomes));
+		Collections.shuffle(Arrays.asList(sobrenomes));
 
 		for (String nome : nomes) {
 			for (String sobrenome : sobrenomes) {
 				this.pessoas[cont] = new Pessoa();
 
 				this.pessoas[cont].setNome(nome + " " + sobrenome);
-				this.pessoas[cont].setTelefone("", "", "");
-				this.pessoas[cont].setEndereco("");
+				this.pessoas[cont].setEndereco(this.gerarEndereco());
+				this.pessoas[cont].setTelefone(
+						this.gerarTipoTelefone(),
+						this.gerarCodigoAreaTelefone(),
+						this.gerarNumeroTelefone()
+				);
 
 				cont ++;
 				// se esgotar as posições encerra a função
-				if (cont == quantPessoas) return;
+				if (cont == quantPessoas) {
+					Collections.shuffle(Arrays.asList(this.pessoas));
+					return;
+				}
 			}
 		}
 	}
 
+	private String gerarTipoTelefone() {
+		Random rand = new Random();
 
-	static void randomizaArray(String[] array)
-	{
-		Random rnd = new Random();
-		for (int i = array.length - 1; i > 0; i--)
-		{
-			int index = rnd.nextInt(i + 1);
+		return "";
+	}
 
-			String temp = array[index];
-			array[index] = array[i];
-			array[i] = temp;
-		}
+	private String gerarCodigoAreaTelefone() {
+		Random rand = new Random();
+		
+		return String.format("%d%d", rand.nextInt(9)+1, rand.nextInt(10));
+	}
+
+	private String gerarNumeroTelefone() {
+		Random rand = new Random();
+
+		return String.format("%d%02d-%04d", rand.nextInt(9)+1, rand.nextInt(100), rand.nextInt(10000));
+	}
+
+	private String gerarEndereco() {
+		Random rand = new Random();
+
+		return "";
 	}
 }
