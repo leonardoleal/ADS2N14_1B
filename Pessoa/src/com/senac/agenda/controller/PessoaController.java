@@ -15,7 +15,6 @@ public class PessoaController {
 	public PessoaController() {}
 
 	public void mostrarInformacoesPessoas() {
-		
 		ContatoView contatoView = new ContatoView();
 		String telefones = "";
 		int quantTelefones = 0;
@@ -82,14 +81,18 @@ public class PessoaController {
 	}
 
 	private String gerarTipoTelefone() {
-		Random rand = new Random();
+		String tiposTel[] = {
+				"Res.", "Cel.", "Trab.",
+		};
 
-		return "";
+		Collections.shuffle(Arrays.asList(tiposTel));
+
+		return tiposTel[0];
 	}
 
 	private String gerarCodigoAreaTelefone() {
 		Random rand = new Random();
-		
+
 		return String.format("%d%d", rand.nextInt(9)+1, rand.nextInt(10));
 	}
 
