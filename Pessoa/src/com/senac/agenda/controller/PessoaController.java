@@ -1,6 +1,5 @@
 package com.senac.agenda.controller;
 
-import java.text.DecimalFormat;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
@@ -38,10 +37,23 @@ public class PessoaController {
 	}
 
 	public void gerarInformacoesAleatorias() {
-		int cont = 0;
 		int quantPessoas = 50;
 		this.pessoas = new Pessoa[quantPessoas];
 
+		for (int i = 0; i < quantPessoas; i++) {
+			this.pessoas[i] = new Pessoa();
+
+			this.pessoas[i].setNome(this.gerarNome());
+			this.pessoas[i].setEndereco(this.gerarEndereco());
+			this.pessoas[i].setTelefone(
+					this.gerarTipoTelefone(),
+					this.gerarCodigoAreaTelefone(),
+					this.gerarNumeroTelefone()
+			);
+		}
+	}
+
+	private String gerarNome() {
 		// cria array de nomes e embaralha
 		String nomes[] = {
 				"João", "Maria", "José",
@@ -58,26 +70,7 @@ public class PessoaController {
 		Collections.shuffle(Arrays.asList(nomes));
 		Collections.shuffle(Arrays.asList(sobrenomes));
 
-		for (String nome : nomes) {
-			for (String sobrenome : sobrenomes) {
-				this.pessoas[cont] = new Pessoa();
-
-				this.pessoas[cont].setNome(nome + " " + sobrenome);
-				this.pessoas[cont].setEndereco(this.gerarEndereco());
-				this.pessoas[cont].setTelefone(
-						this.gerarTipoTelefone(),
-						this.gerarCodigoAreaTelefone(),
-						this.gerarNumeroTelefone()
-				);
-
-				cont ++;
-				// se esgotar as posições encerra a função
-				if (cont == quantPessoas) {
-					Collections.shuffle(Arrays.asList(this.pessoas));
-					return;
-				}
-			}
-		}
+		return nomes[0] + " " + sobrenomes[0];
 	}
 
 	private String gerarTipoTelefone() {
@@ -103,8 +96,28 @@ public class PessoaController {
 	}
 
 	private String gerarEndereco() {
-		Random rand = new Random();
+		// cria array de nomes e embaralha
+		String tipo[] = {
+				"Alameda", "Avenida", "Campo", "Chácara", "Colônia", "Condomínio", "Conjunto",
+				"Distrito", "Esplanada", "Estação", "Estrada", "Favela", "Loteamento", "Morro",
+				"Parque", "Praça", "Residencial", "Rodovia", "Rua", "Sítio", "Travessa", "Vale"
+		};
 
-		return "";
+		String logradouro[] = {
+				"Nossa Senhora", "Brasil", "Paulista",
+				"Veira", "dos Ministerios", "25", 
+				"Brigadeiro", "Rio" 
+		};
+
+		String compLogradouro[] = {
+				"de Copacabana", "Souto", "",
+				"de Março", "Faria Lima", "Branco"
+		};
+
+		Collections.shuffle(Arrays.asList(tipo));
+		Collections.shuffle(Arrays.asList(logradouro));
+		Collections.shuffle(Arrays.asList(compLogradouro));
+
+		return tipo[0] + " " + logradouro[0] + " " + compLogradouro[0];
 	}
 }
