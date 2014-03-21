@@ -15,14 +15,15 @@ public class PessoaController {
 
 	public void mostrarInformacoesPessoas() {
 		ContatoView contatoView = new ContatoView();
-		String telefones = "";
+		String telefones;
 		int quantTelefones = 0;
 
 		for (Pessoa pessoa : this.pessoas) {
-			
+			// caso haja mais de um telefone cadastrado, os exibe
 			quantTelefones = pessoa.getTelefones().size();
+			telefones = "";
 			for (int i= 0; i < quantTelefones; i++) {
-				telefones = pessoa.getTelefones().get(i).getTipo() + ": " +
+				telefones += "\n\t" + pessoa.getTelefones().get(i).getTipo() + ": " +
 						"(" + pessoa.getTelefones().get(i).getCodigo() + ") " +
 						pessoa.getTelefones().get(i).getNumero()
 				;
@@ -45,6 +46,11 @@ public class PessoaController {
 
 			this.pessoas[i].setNome(this.gerarNome());
 			this.pessoas[i].setEndereco(this.gerarEndereco());
+			this.pessoas[i].setTelefone(
+					this.gerarTipoTelefone(),
+					this.gerarCodigoAreaTelefone(),
+					this.gerarNumeroTelefone()
+			);
 			this.pessoas[i].setTelefone(
 					this.gerarTipoTelefone(),
 					this.gerarCodigoAreaTelefone(),

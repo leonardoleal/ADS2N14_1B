@@ -9,5 +9,6 @@ public class ContatoView {
 		out.println("Nome: " + nome);
 		out.println("Telefones: " + telefone);
 		out.println("Endereço: " + endereco);
+		out.println("-----------------------------");
 	}
 }
