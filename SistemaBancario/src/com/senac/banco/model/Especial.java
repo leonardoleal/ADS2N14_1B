@@ -1,6 +1,8 @@
 package com.senac.banco.model;
 
-public class Especial extends Comum {
+import com.senac.banco.exception.SaldoInsuficiente;
+
+public class Especial extends Conta {
 
 	private double limite;
 
@@ -12,8 +14,13 @@ public class Especial extends Comum {
 		this.limite = limite;
 	}
 
-	public void sacar(double valorSaque) {
-		double saldo = 0;
-		super.setSaldo(saldo);
+	public void sacar(double valorSaque) throws SaldoInsuficiente {
+		double limiteSaque = this.getSaldo() + this.getLimite();
+
+		if (valorSaque > limiteSaque) {
+			throw new SaldoInsuficiente();
+		}
+
+		super.setSaldo(this.getSaldo() - valorSaque);
 	}
 }

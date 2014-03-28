@@ -1,6 +1,6 @@
 package com.senac.banco.model;
 
-public class Investimento extends Comum {
+public class Investimento extends Conta {
 
 	private int dataCriacao;
 
@@ -13,6 +13,8 @@ public class Investimento extends Comum {
 	}
 
 	public void dividendos(double taxa) {
-		
+		double acressimo = super.getSaldo() * (taxa/100);
+
+		super.setSaldo(super.getSaldo() + acressimo);
 	}
 }
