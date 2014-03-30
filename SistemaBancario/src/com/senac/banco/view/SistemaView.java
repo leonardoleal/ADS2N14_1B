@@ -90,7 +90,7 @@ public class SistemaView {
 		out.println("Saque Efetuado!");
 	}
 
-	public String depositar() {
+	public String entradaValorDeposito() {
 		out.print("Entre com o valor: ");
 
 		return scanner.next();

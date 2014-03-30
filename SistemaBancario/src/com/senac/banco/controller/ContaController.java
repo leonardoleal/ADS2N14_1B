@@ -152,7 +152,15 @@ public class ContaController {
 	}
 
 	public void depositar() {
-		sistemaV.depositoEfetuado();
+		double valorDeposito = Double.parseDouble(sistemaV.entradaValorDeposito());
+
+		try {
+			this.cliente.getConta().depositar(valorDeposito);
+			sistemaV.depositoEfetuado();
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			e.getStackTrace();
+		}
 	}
 
 	public void investir() {
