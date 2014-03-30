@@ -123,4 +123,8 @@ public class SistemaView {
 	public void clienteNaoCadastrado() {
 		err.println("Não há cliente cadastrado.");
 	}
+
+	public void operacaoInexistente() {
+		err.println("Operação inexistente para este tipo de conta.");
+	}
 }

@@ -164,11 +164,15 @@ public class ContaController {
 	}
 
 	public void taxaDividendo() {
-		double taxaDividendo = Double.parseDouble(sistemaV.entradaTaxaDividendo());
-
 		try {
-			this.cliente.getConta().dividendos(taxaDividendo);
-			sistemaV.dividendoEfetuado();
+			if (this.cliente.getConta() instanceof Investimento) {
+				double taxaDividendo = Double.parseDouble(sistemaV.entradaTaxaDividendo());
+
+				((Investimento) this.cliente.getConta()).dividendos(taxaDividendo);
+				sistemaV.dividendoEfetuado();
+			} else {
+				sistemaV.operacaoInexistente();
+			}
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
 			e.getStackTrace();
