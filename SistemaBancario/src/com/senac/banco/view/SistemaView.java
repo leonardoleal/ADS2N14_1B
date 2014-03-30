@@ -4,57 +4,121 @@ import static java.lang.System.out;
 import static java.lang.System.err;
 import java.util.Scanner;
 
-import com.senac.banco.controller.ContaController;
-
 public class SistemaView {
-	private static String opcao;
 	private static Scanner scanner = new Scanner(System.in);
 
-	public static void iniciar() {
-		out.println("Seja bem vindo ao Sistema Bancário!");
-
-		SistemaView.menuPrincipal();
-	}
-
-	public static void encerrar() {
+	public void encerrar() {
 		out.println("Fechando o sistema!\n  See you! :D");
 
 		System.exit(0);
 	}
 
-	public static void mensagemOpInvalida() {
+	public void mensagemOpInvalida() {
 		err.println("Opção inválida...");
 	}
 
-	public static void menuPrincipal() {
-		ContaController controller = new ContaController();
+	public String menuPrincipal() {
+		out.println(
+				"Digite a opção desejada:"
+				+ "\n1 - Cadastar Conta"
+				+ "\n2 - Transações Conta"
+				+ "\nS - Sair"
+		);
 
-		do {
-			out.println(
-					"Digite a opção desejada:"
-					+ "\n1 - Cadastar Conta"
-					+ "\n2 - Transações Conta"
-					+ "\nS - Sair"
-			);
-			SistemaView.opcao = scanner.next();
+		return scanner.next();
+	}
 
-			switch (SistemaView.opcao.toUpperCase()) {
-				case "1":
-					controller.cadastrarConta();
-					break;
+	public String entradaNome() {
+		out.print("Nome: ");
 
-				case "2":
-					controller.transacoesConta();
-					break;
+		return scanner.next();
+	}
 
-				case "S":
-					SistemaView.encerrar();
-					break;
+	public String menuTipoConta() {
+		out.println(
+				"Digite a opção desejada:"
+				+ "\nC - Conta Comum"
+				+ "\nE - Conta Especial"
+				+ "\nI - Conta Investimento"
+		);
 
-				default:
-					SistemaView.mensagemOpInvalida();
-					
-			}
-		} while (true);
+		return scanner.next();
+	}
+
+	public String entradaNumeroConta() {
+		out.print("Digite o número da conta: ");
+
+		return scanner.next();
+	}
+
+	public String entradaSaldo() {
+		out.print("Entre com o saldo inicial: ");
+
+		return scanner.next();
+	}
+
+	public String entradaLimite() {
+		out.print("Entre com o limite de crédito: ");
+
+		return scanner.next();
+	}
+
+	public void cadastroEfetuado(String numConta, String numVerificacao) {
+		out.println("Conta cadastrada! \nConta nº: " + numConta + "-" + numVerificacao);
+	}
+
+	public String menuTransacoesConta() {
+		out.println(
+				"Digite a opção desejada:"
+				+ "\n1 - Sacar"
+				+ "\n2 - Depositar"
+				+ "\n3 - Investimento"
+				+ "\n4 - Saldo"
+				+ "\nV - Voltar"
+		);
+
+		return scanner.next();
+	}
+
+	public String entradaValorSaque() {
+		out.print("Entre com o valor: ");
+
+		return scanner.next();
+	}
+
+	public void saqueEfetuado() {
+		out.println("Saque Efetuado!");
+	}
+
+	public String depositar() {
+		out.print("Entre com o valor: ");
+
+		return scanner.next();
+	}
+
+	public void depositoEfetuado() {
+		out.println("Deposito Efetuado!");
+	}
+
+	public String investir() {
+		out.print("Entre com a taxa: (%) ");
+
+		return scanner.next();
+	}
+
+	public void investimentoEfetuado() {
+		out.println("Investimento Efetuado!");
+	}
+
+	public void saldo(Double saldo) {
+		out.println(String.format("Saldo: %.2f", saldo));
+	}
+
+	public void saldoInsuficiente() {
+		err.println("Saldo insuficiente.");
+	}
+
+	public void clienteNaoCadastrado() {
+		err.println("Não há cliente cadastrado.");
 	}
 }

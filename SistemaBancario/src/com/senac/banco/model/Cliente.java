@@ -18,7 +18,6 @@ public class Cliente {
 		this.nome = nome;
 	}
 
-
 	public Conta getConta() {
 		return this.conta;
 	}
