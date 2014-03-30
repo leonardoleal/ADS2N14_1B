@@ -100,17 +100,19 @@ public class SistemaView {
 		out.println("Deposito Efetuado!");
 	}
 
-	public String investir() {
+	public String entradaTaxaDividendo() {
 		out.print("Entre com a taxa: (%) ");
 
 		return scanner.next();
 	}
 
-	public void investimentoEfetuado() {
-		out.println("Investimento Efetuado!");
+	public void dividendoEfetuado() {
+		out.println("Dividendo Efetuado!");
 	}
 
-	public void saldo(Double saldo) {
+	public void saldo(String nome, int numConta, int numVerificacao, Double saldo) {
+		out.println("Cliente: " + nome);
+		out.println("Conta: " + numConta + "-" + numVerificacao);
 		out.println(String.format("Saldo: %.2f", saldo));
 	}
 

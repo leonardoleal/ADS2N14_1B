@@ -44,4 +44,8 @@ public class Conta {
 
 		this.setSaldo(this.getSaldo() - valorSaque);
 	}
+
+	public void dividendos(double taxaDividendo) {
+		
+	}
 }

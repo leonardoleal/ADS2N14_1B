@@ -120,7 +120,7 @@ public class ContaController {
 				break;
 
 			case "3":
-				this.investir();
+				this.taxaDividendo();
 				break;
 
 			case "4":
@@ -163,11 +163,24 @@ public class ContaController {
 		}
 	}
 
-	public void investir() {
-		sistemaV.investimentoEfetuado();
+	public void taxaDividendo() {
+		double taxaDividendo = Double.parseDouble(sistemaV.entradaTaxaDividendo());
+
+		try {
+			this.cliente.getConta().dividendos(taxaDividendo);
+			sistemaV.dividendoEfetuado();
+		} catch (Exception e) {
+			System.out.print(e.getMessage());
+			e.getStackTrace();
+		}
 	}
 
 	public void consultarSaldo() {
-		sistemaV.saldo(this.cliente.getConta().getSaldo());
+		sistemaV.saldo(
+				this.cliente.getNome()
+				, this.cliente.getConta().getNumConta()
+				, this.cliente.getConta().getNumVerificacao()
+				, this.cliente.getConta().getSaldo()
+		);
 	}
 }
