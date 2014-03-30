@@ -1,14 +1,29 @@
 package com.senac.banco.model;
 
-public class Cliente extends Pessoa {
+public class Cliente {
 
-	private int numConta;
+	private String nome;
+	private Conta conta;
 
-	public int getNumConta() {
-		return this.numConta;
+	public Cliente(String nome, Conta conta) {
+		this.nome = nome;
+		this.conta = conta;
+	}
+	
+	public String getNome() {
+		return nome;
 	}
 
-	public void setNumConta(int numConta) {
-		this.numConta = numConta;
+	public void setNome(String nome) {
+		this.nome = nome;
+	}
+
+
+	public Conta getConta() {
+		return this.conta;
+	}
+
+	public void setConta(Conta conta) {
+		this.conta = conta;
 	}
 }

@@ -8,6 +8,11 @@ public class Conta {
 	private int numConta;
 	private int numVerificacao;
 
+	public Conta(int numConta, double saldo) {
+		this.setNumConta(numConta);
+		this.setSaldo(saldo);
+	}
+
 	protected void setSaldo(double saldo) {
 		this.saldo = saldo;
 	}
@@ -20,7 +25,7 @@ public class Conta {
 		return this.numConta;
 	}
 
-	public void setNumConta(int numConta) {
+	protected void setNumConta(int numConta) {
 		this.numConta = numConta;
 	}
 

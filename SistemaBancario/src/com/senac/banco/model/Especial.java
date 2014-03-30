@@ -5,6 +5,11 @@ import com.senac.banco.exception.SaldoInsuficiente;
 public class Especial extends Conta {
 
 	private double limite;
+	
+	public Especial(int numConta, double saldo, double limite) {
+		super(numConta, saldo);
+		this.limite = limite;
+	}
 
 	public double getLimite() {
 		return this.limite;
