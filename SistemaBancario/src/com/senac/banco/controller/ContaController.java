@@ -1,5 +1,8 @@
 package com.senac.banco.controller;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 import com.senac.banco.exception.SaldoInsuficiente;
 import com.senac.banco.model.*;
 import com.senac.banco.view.SistemaView;
@@ -189,7 +192,14 @@ public class ContaController {
 		if (this.cliente.getConta() instanceof Especial) {
 			sistemaV.exibeLimite(((Especial) this.cliente.getConta()).getLimite());
 		} else if (this.cliente.getConta() instanceof Investimento) {
-			sistemaV.exibeDataCriacao(((Investimento) this.cliente.getConta()).getDataCriacao());
+			try {
+				Date dataNum;
+				dataNum = new SimpleDateFormat("yyyyMMdd").parse(
+						Integer.toString(((Investimento) this.cliente.getConta()).getDataCriacao())
+				);
+				String data = new SimpleDateFormat("dd/MM/yyyy").format(dataNum);
+				sistemaV.exibeDataCriacao(data);
+			} catch (Exception e) {}
 		}
 	}
 }

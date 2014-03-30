@@ -120,7 +120,7 @@ public class SistemaView {
 		out.println("Limite: " + String.format("Saldo: %.2f", limite));
 	}
 
-	public void exibeDataCriacao(int dataCriacao) {
+	public void exibeDataCriacao(String dataCriacao) {
 		out.println("Data Cricação: " + dataCriacao);
 	}
 
