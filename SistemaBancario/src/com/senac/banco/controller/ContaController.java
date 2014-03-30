@@ -127,8 +127,7 @@ public class ContaController {
 				this.consultarSaldo();
 				break;
 
-			case "S":
-				sistemaV.encerrar();
+			case "V":
 				break;
 
 			default:
@@ -180,11 +179,17 @@ public class ContaController {
 	}
 
 	public void consultarSaldo() {
-		sistemaV.saldo(
+		sistemaV.exibeSaldo(
 				this.cliente.getNome()
 				, this.cliente.getConta().getNumConta()
 				, this.cliente.getConta().getNumVerificacao()
 				, this.cliente.getConta().getSaldo()
 		);
+
+		if (this.cliente.getConta() instanceof Especial) {
+			sistemaV.exibeLimite(((Especial) this.cliente.getConta()).getLimite());
+		} else if (this.cliente.getConta() instanceof Investimento) {
+			sistemaV.exibeDataCriacao(((Investimento) this.cliente.getConta()).getDataCriacao());
+		}
 	}
 }

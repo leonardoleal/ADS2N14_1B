@@ -110,10 +110,18 @@ public class SistemaView {
 		out.println("Dividendo Efetuado!");
 	}
 
-	public void saldo(String nome, int numConta, int numVerificacao, Double saldo) {
+	public void exibeSaldo(String nome, int numConta, int numVerificacao, Double saldo) {
 		out.println("Cliente: " + nome);
 		out.println("Conta: " + numConta + "-" + numVerificacao);
 		out.println(String.format("Saldo: %.2f", saldo));
+	}
+
+	public void exibeLimite(double limite) {
+		out.println("Limite: " + String.format("Saldo: %.2f", limite));
+	}
+
+	public void exibeDataCriacao(int dataCriacao) {
+		out.println("Data Cricação: " + dataCriacao);
 	}
 
 	public void saldoInsuficiente() {
