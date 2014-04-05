@@ -7,16 +7,6 @@ import java.util.Scanner;
 public class SistemaView {
 	private static Scanner scanner = new Scanner(System.in);
 
-	public void encerrar() {
-		out.println("Fechando o sistema!\n  See you! :D");
-
-		System.exit(0);
-	}
-
-	public void mensagemOpInvalida() {
-		err.println("Opção inválida...");
-	}
-
 	public String menuPrincipal() {
 		out.println(
 				"Digite a opção desejada:"
@@ -45,22 +35,22 @@ public class SistemaView {
 		return scanner.next();
 	}
 
-	public String entradaNumeroConta() {
+	public int entradaNumeroConta() {
 		out.print("Digite o número da conta: ");
 
-		return scanner.next();
+	    return this.lerNumIntPos();
 	}
 
-	public String entradaSaldo() {
+	public double entradaSaldo() {
 		out.print("Entre com o saldo inicial: ");
 
-		return scanner.next();
+	    return this.lerNumDoubPos();
 	}
 
-	public String entradaLimite() {
+	public double entradaLimite() {
 		out.print("Entre com o limite de crédito: ");
 
-		return scanner.next();
+	    return this.lerNumDoubPos();
 	}
 
 	public void cadastroEfetuado(String numConta, String numVerificacao) {
@@ -80,30 +70,30 @@ public class SistemaView {
 		return scanner.next();
 	}
 
-	public String entradaValorSaque() {
-		out.print("Entre com o valor: ");
+	public double entradaValorSaque() {
+		out.println("Entre com o valor: ");
 
-		return scanner.next();
+	    return this.lerNumIntPos();
 	}
 
 	public void saqueEfetuado() {
 		out.println("Saque Efetuado!");
 	}
 
-	public String entradaValorDeposito() {
+	public double entradaValorDeposito() {
 		out.print("Entre com o valor: ");
 
-		return scanner.next();
+	    return this.lerNumDoubPos();
 	}
 
 	public void depositoEfetuado() {
 		out.println("Deposito Efetuado!");
 	}
 
-	public String entradaTaxaDividendo() {
+	public double entradaTaxaDividendo() {
 		out.print("Entre com a taxa: (%) ");
 
-		return scanner.next();
+	    return this.lerNumDoubPos();
 	}
 
 	public void dividendoEfetuado() {
@@ -132,7 +122,71 @@ public class SistemaView {
 		err.println("Não há cliente cadastrado.");
 	}
 
-	public void operacaoInexistente() {
+	public void msgBoasVindas() {
+		System.out.println("Seja bem vindo ao Sistema Bancário!");
+	}
+
+	public void msgEncerrando() {
+		out.println("Fechando o sistema!\n  See you! :D");
+
+		System.exit(0);
+	}
+
+	public void msgOpInvalida() {
+		err.println("Opção inválida...");
+	}
+
+	public void msgOpInexistente() {
 		err.println("Operação inexistente para este tipo de conta.");
+	}
+
+	public void msgValorInvalido() {
+		// err sai primeiro no console do eclipse, com arquivo jar não acontece
+		err.println("Valor inválido para esta operação.");
+		out.print("Tente novamente: ");
+	}
+
+	public int lerNumIntPos() {
+        int num;
+
+        do {
+            while (!scanner.hasNextInt()) {
+                scanner.next();
+                this.msgValorInvalido();
+            }
+
+            num = scanner.nextInt();
+
+            if (num <= 0) {
+            	this.msgValorInvalido();
+            	continue;
+			}
+
+            break;
+        } while (true);
+
+        return num;
+	}
+
+	public double lerNumDoubPos() {
+        double num;
+
+        do {
+            while (!scanner.hasNextDouble()) {
+                scanner.next();
+                this.msgValorInvalido();
+            }
+
+            num = scanner.nextDouble();
+
+            if (num <= 0) {
+            	this.msgValorInvalido();
+            	continue;
+			}
+
+            break;
+        } while (true);
+
+        return num;
 	}
 }

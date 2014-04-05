@@ -14,6 +14,8 @@ public class ContaController {
 	public ContaController() {
 		this.sistemaV = new SistemaView();
 		cliente = null;
+
+		this.sistemaV.msgBoasVindas();
 	}
 
 	public void iniciarSistema() {
@@ -29,11 +31,11 @@ public class ContaController {
 				break;
 
 			case "S":
-				sistemaV.encerrar();
+				sistemaV.msgEncerrando();
 				break;
 
 			default:
-				sistemaV.mensagemOpInvalida();
+				sistemaV.msgOpInvalida();
 				break;
 		}
 	}
@@ -63,7 +65,7 @@ public class ContaController {
 					break;
 
 				default:
-					sistemaV.mensagemOpInvalida();
+					sistemaV.msgOpInvalida();
 					break;
 			}
 		} while (continuar);
@@ -77,8 +79,8 @@ public class ContaController {
 	}
 
 	public Conta cadastrarContaComum() {
-		int numConta = Integer.parseInt(sistemaV.entradaNumeroConta());
-		double saldo = Double.parseDouble(sistemaV.entradaSaldo());
+		int numConta = sistemaV.entradaNumeroConta();
+		double saldo = sistemaV.entradaSaldo();
 
 		Conta conta = new Conta(numConta, saldo);
 
@@ -86,9 +88,9 @@ public class ContaController {
 	}
 
 	public Conta cadastrarContaEspecial() {
-		int numConta = Integer.parseInt(sistemaV.entradaNumeroConta());
-		double saldo = Double.parseDouble(sistemaV.entradaSaldo());
-		double limite = Double.parseDouble(sistemaV.entradaLimite());
+		int numConta = sistemaV.entradaNumeroConta();
+		double saldo = sistemaV.entradaSaldo();
+		double limite = sistemaV.entradaLimite();
 
 		Especial conta = new Especial(numConta, saldo, limite);
 
@@ -96,8 +98,8 @@ public class ContaController {
 	}
 
 	public Conta cadastrarContaInvestimento() {
-		int numConta = Integer.parseInt(sistemaV.entradaNumeroConta());
-		double saldo = Double.parseDouble(sistemaV.entradaSaldo());
+		int numConta = sistemaV.entradaNumeroConta();
+		double saldo = sistemaV.entradaSaldo();
 
 		Investimento conta = new Investimento(numConta, saldo);
 
@@ -134,13 +136,13 @@ public class ContaController {
 				break;
 
 			default:
-				sistemaV.mensagemOpInvalida();
+				sistemaV.msgOpInvalida();
 				break;
 		}
 	}
 
 	public void sacar() {
-		double valorSaque = Double.parseDouble(sistemaV.entradaValorSaque());
+		double valorSaque = sistemaV.entradaValorSaque();
 
 		try {
 			this.cliente.getConta().sacar(valorSaque);
@@ -154,7 +156,7 @@ public class ContaController {
 	}
 
 	public void depositar() {
-		double valorDeposito = Double.parseDouble(sistemaV.entradaValorDeposito());
+		double valorDeposito = sistemaV.entradaValorDeposito();
 
 		try {
 			this.cliente.getConta().depositar(valorDeposito);
@@ -168,12 +170,12 @@ public class ContaController {
 	public void taxaDividendo() {
 		try {
 			if (this.cliente.getConta() instanceof Investimento) {
-				double taxaDividendo = Double.parseDouble(sistemaV.entradaTaxaDividendo());
+				double taxaDividendo = sistemaV.entradaTaxaDividendo();
 
 				((Investimento) this.cliente.getConta()).dividendos(taxaDividendo);
 				sistemaV.dividendoEfetuado();
 			} else {
-				sistemaV.operacaoInexistente();
+				sistemaV.msgOpInexistente();
 			}
 		} catch (Exception e) {
 			System.out.print(e.getMessage());
