@@ -51,9 +51,9 @@ public class SistemaView {
 				"Digite a opção desejada:"
 				+ "\n1 - Sacar"
 				+ "\n2 - Depositar"
-				+ "\n3 - Investimento"
+				+ "\n3 - Gerar Dividendo"
 				+ "\n4 - Saldo"
-				+ "\nV - Voltar"
+				+ "\nP - Próximo Cliente"
 		);
 
 		return scanner.next();
@@ -121,8 +121,6 @@ public class SistemaView {
 
 	public void msgEncerrando() {
 		out.println("Fechando o sistema!\n  See you! :D");
-
-		System.exit(0);
 	}
 
 	public void msgOpInvalida() {

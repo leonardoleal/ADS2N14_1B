@@ -46,6 +46,9 @@ public class ContaController {
 		}
 
 		this.transacoesContaContatos();
+
+		sistemaV.msgEncerrando();
+		System.exit(0);
 	}
 
 	public void cadastrarContaContatos() {
@@ -166,9 +169,23 @@ public class ContaController {
 
 			while ((linha = arquivoContato.readLine()) != null) {
 				dados = linha.split("#");
-				// criar objeto Cliente
+
+				this.cliente = new Cliente(
+									dados[0]
+									, this.getTipoConta(
+											dados[1]
+											, Integer.parseInt(dados[2])
+											, Double.parseDouble(dados[3])
+											, Double.parseDouble(dados[4])
+									)
+				);
+
 				this.transacoesConta();
+				this.escreveArquivoContas(true);
 			}
+
+			new File(this.nomeArquivoContas).delete();
+		    new File(this.nomeArquivoContas + "~").renameTo(new File(this.nomeArquivoContas));
 
 			sistemaV.showMsgArquivoGerado();
         } catch (FileNotFoundException e1) {
@@ -186,6 +203,30 @@ public class ContaController {
 		}
 	}
 
+	private Conta getTipoConta(
+								String tipoConta, int numConta
+								, double saldo, double limite
+	) {
+		Conta conta;
+
+		switch (tipoConta) {
+			case "Especial":
+				conta = new Especial(numConta, saldo, limite);
+				break;
+
+			case "Investimento":
+				conta = new Investimento(numConta, saldo);
+				break;
+
+			// conta comum
+			default:
+				conta = new Conta(numConta, saldo);
+				break;
+		}
+		
+		return conta;
+	}
+
 	public void transacoesConta() {
 		if (this.cliente == null) {
 			sistemaV.clienteNaoCadastrado();
@@ -193,32 +234,39 @@ public class ContaController {
 			return;
 		}
 
-		String opcao = sistemaV.menuTransacoesConta();
+		String opcao = ""; 
+		boolean continuar = true;
 
-		switch (opcao.toUpperCase()) {
-			case "1":
-				this.sacar();
-				break;
+		do {
+			sistemaV.exibeNomeCliente(this.cliente.getNome());
+			opcao = sistemaV.menuTransacoesConta();
 
-			case "2":
-				this.depositar();
-				break;
+			switch (opcao.toUpperCase()) {
+				case "1":
+					this.sacar();
+					break;
 
-			case "3":
-				this.taxaDividendo();
-				break;
+				case "2":
+					this.depositar();
+					break;
 
-			case "4":
-				this.consultarSaldo();
-				break;
+				case "3":
+					this.taxaDividendo();
+					break;
 
-			case "V":
-				break;
+				case "4":
+					this.consultarSaldo();
+					break;
 
-			default:
-				sistemaV.msgOpInvalida();
-				break;
-		}
+				case "P":
+					continuar = false;
+					break;
+
+				default:
+					sistemaV.msgOpInvalida();
+					break;
+			}
+		} while (continuar);
 	}
 
 	public void sacar() {
@@ -296,12 +344,21 @@ public class ContaController {
 	}
 
 	private void escreveArquivoContas() {
-          BufferedWriter arquivoContas = null;
-        
-        try {
-        	arquivoContas = new BufferedWriter(
+		this.escreveArquivoContas(false);
+	}
+
+	private void escreveArquivoContas(boolean isTmp) {
+		BufferedWriter arquivoContas = null;
+		String nomeArquivoContas = this.nomeArquivoContas;
+
+		if (isTmp) {
+			nomeArquivoContas += "~";
+		}
+
+		try {
+			arquivoContas = new BufferedWriter(
 			        			new OutputStreamWriter(
-			        					new FileOutputStream(this.nomeArquivoContas, true)
+			        					new FileOutputStream(nomeArquivoContas, true)
 			        					, "UTF-8"
 			        			)
             );
@@ -320,25 +377,20 @@ public class ContaController {
 
 			arquivoContas.write( "#" );
 			arquivoContas.write(
-					Integer.toString(
-							this.cliente.getConta().getNumVerificacao()
-					)
-			);
-
-			arquivoContas.write( "#" );
-			arquivoContas.write(
 					Double.toString(
 							this.cliente.getConta().getSaldo()
 					)
 			);
 
+			arquivoContas.write( "#" );
 			if (this.cliente.getConta() instanceof Especial) {
-				arquivoContas.write( "#" );
 				arquivoContas.write(
 						Double.toString(
 								((Especial) this.cliente.getConta()).getLimite()
 								)
 						);
+			} else {
+				arquivoContas.write("0");				
 			}
 
 			arquivoContas.newLine();
