@@ -1,22 +1,11 @@
 package com.senac.banco.view;
 
-import static java.lang.System.out;
-import static java.lang.System.err;
+import static java.lang.System.*;
+
 import java.util.Scanner;
 
 public class SistemaView {
 	private static Scanner scanner = new Scanner(System.in);
-
-	public String menuPrincipal() {
-		out.println(
-				"Digite a opÁ„o desejada:"
-				+ "\n1 - Cadastar Conta"
-				+ "\n2 - TransaÁıes Conta"
-				+ "\nS - Sair"
-		);
-
-		return scanner.next();
-	}
 
 	public String entradaNome() {
 		out.print("Nome: ");
@@ -26,7 +15,7 @@ public class SistemaView {
 
 	public String menuTipoConta() {
 		out.println(
-				"Digite a opÁ„o desejada:"
+				"Digite a op√ß√£o desejada:"
 				+ "\nC - Conta Comum"
 				+ "\nE - Conta Especial"
 				+ "\nI - Conta Investimento"
@@ -36,7 +25,7 @@ public class SistemaView {
 	}
 
 	public int entradaNumeroConta() {
-		out.print("Digite o n˙mero da conta: ");
+		out.print("Digite o n√∫mero da conta: ");
 
 	    return this.lerNumIntPos();
 	}
@@ -48,18 +37,18 @@ public class SistemaView {
 	}
 
 	public double entradaLimite() {
-		out.print("Entre com o limite de crÈdito: ");
+		out.print("Entre com o limite de cr√©dito: ");
 
 	    return this.lerNumDoubPos();
 	}
 
 	public void cadastroEfetuado(String numConta, String numVerificacao) {
-		out.println("Conta cadastrada! \nConta n∫: " + numConta + "-" + numVerificacao);
+		out.println("Conta cadastrada! \nConta n¬∫: " + numConta + "-" + numVerificacao);
 	}
 
 	public String menuTransacoesConta() {
 		out.println(
-				"Digite a opÁ„o desejada:"
+				"Digite a op√ß√£o desejada:"
 				+ "\n1 - Sacar"
 				+ "\n2 - Depositar"
 				+ "\n3 - Investimento"
@@ -100,6 +89,10 @@ public class SistemaView {
 		out.println("Dividendo Efetuado!");
 	}
 
+	public void exibeNomeCliente(String nome) {
+		out.println("Cliente: " + nome);
+	}
+
 	public void exibeSaldo(String nome, int numConta, int numVerificacao, Double saldo) {
 		out.println("Cliente: " + nome);
 		out.println("Conta: " + numConta + "-" + numVerificacao);
@@ -111,7 +104,7 @@ public class SistemaView {
 	}
 
 	public void exibeDataCriacao(String dataCriacao) {
-		out.println("Data CricaÁ„o: " + dataCriacao);
+		out.println("Data Crica√ß√£o: " + dataCriacao);
 	}
 
 	public void saldoInsuficiente() {
@@ -119,11 +112,11 @@ public class SistemaView {
 	}
 
 	public void clienteNaoCadastrado() {
-		err.println("N„o h· cliente cadastrado.");
+		err.println("N√£o h√° cliente cadastrado.");
 	}
 
 	public void msgBoasVindas() {
-		System.out.println("Seja bem vindo ao Sistema Banc·rio!");
+		System.out.println("Seja bem vindo ao Sistema Banc√°rio!");
 	}
 
 	public void msgEncerrando() {
@@ -133,16 +126,16 @@ public class SistemaView {
 	}
 
 	public void msgOpInvalida() {
-		err.println("OpÁ„o inv·lida...");
+		err.println("Op√ß√£o inv√°lida...");
 	}
 
 	public void msgOpInexistente() {
-		err.println("OperaÁ„o inexistente para este tipo de conta.");
+		err.println("Opera√ß√£o inexistente para este tipo de conta.");
 	}
 
 	public void msgValorInvalido() {
-		// err sai primeiro no console do eclipse, com arquivo jar n„o acontece
-		err.println("Valor inv·lido para esta operaÁ„o.");
+		// err sai primeiro no console do eclipse, com arquivo jar n√£o acontece
+		err.println("Valor inv√°lido para esta opera√ß√£o.");
 		out.print("Tente novamente: ");
 	}
 
@@ -188,5 +181,22 @@ public class SistemaView {
         } while (true);
 
         return num;
+	}
+
+	public void showMsgArquivoGerado() {
+		out.println("Aquivo gerado com sucesso!");
+	}
+
+	public void showMsgArquivoInexistente(String nomeArquivo) {
+		err.println(
+				String.format(
+						"Encerrando o sistema.\nAquivo %s n√£o existe!"
+						, nomeArquivo
+				)
+		);
+	}
+
+	public void showMsgArquivoExiste() {
+		err.println("Aquivo j√° existe!\nN√£o foi gerado o novo arquivo.");
 	}
 }

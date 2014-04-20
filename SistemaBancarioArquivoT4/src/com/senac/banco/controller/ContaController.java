@@ -1,15 +1,28 @@
 package com.senac.banco.controller;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
 import com.senac.banco.exception.SaldoInsuficiente;
-import com.senac.banco.model.*;
+import com.senac.banco.model.Cliente;
+import com.senac.banco.model.Conta;
+import com.senac.banco.model.Especial;
+import com.senac.banco.model.Investimento;
 import com.senac.banco.view.SistemaView;
 
 public class ContaController {
-	SistemaView sistemaV;
-	Cliente cliente;
+	private String nomeArquivoContatos;
+	private String nomeArquivoContas;
+	private SistemaView sistemaV;
+	private Cliente cliente;
 
 	public ContaController() {
 		this.sistemaV = new SistemaView();
@@ -18,32 +31,63 @@ public class ContaController {
 		this.sistemaV.msgBoasVindas();
 	}
 
-	public void iniciarSistema() {
-		String opcao = sistemaV.menuPrincipal();
+	public void iniciarSistema(String nomeArquivoContas, String nomeArquivoContatos) {
+		if (!this.fileExists(nomeArquivoContatos)) {
+			sistemaV.showMsgArquivoInexistente("\"Contatos\"");
 
-		switch (opcao.toUpperCase()) {
-			case "1":
-				this.cadastrarConta();
-				break;
+			return;
+		}
 
-			case "2":
-				this.transacoesConta();
-				break;
+		this.nomeArquivoContatos = nomeArquivoContatos;
+		this.nomeArquivoContas = nomeArquivoContas;
 
-			case "S":
-				sistemaV.msgEncerrando();
-				break;
+		if (!this.fileExists(nomeArquivoContas)) {
+			this.cadastrarContaContatos();
+		}
 
-			default:
-				sistemaV.msgOpInvalida();
-				break;
+		this.transacoesContaContatos();
+	}
+
+	public void cadastrarContaContatos() {
+		BufferedReader arquivoContato = null;
+
+		try {
+			arquivoContato = new BufferedReader(new FileReader(this.nomeArquivoContatos));
+
+			String linha;
+			String dados[];
+
+			while ((linha = arquivoContato.readLine()) != null) {
+				dados = linha.split("#");
+				cadastrarConta(dados[0], true);
+			}
+
+			sistemaV.showMsgArquivoGerado();
+        } catch (FileNotFoundException e1) {
+        	e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (arquivoContato != null) {
+					arquivoContato.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
 		}
 	}
 
-	public void cadastrarConta() {
+	public void cadastrarConta(String nome, boolean toFile) {
 		Conta conta = null;
-		String nome = sistemaV.entradaNome();
 
+		if (nome.isEmpty()) {
+			nome = sistemaV.entradaNome();
+		} else {
+			sistemaV.exibeNomeCliente(nome);
+		}
+
+		//cadastrar conta para cada cliente no arquivo
 		boolean continuar = true;
 		do {
 			String tipoConta = sistemaV.menuTipoConta();
@@ -71,6 +115,10 @@ public class ContaController {
 		} while (continuar);
 
 		this.cliente = new Cliente(nome, conta);
+
+		if (toFile) {
+			this.escreveArquivoContas();
+		}
 
 		sistemaV.cadastroEfetuado(
 				Integer.toString(this.cliente.getConta().getNumConta())
@@ -104,6 +152,38 @@ public class ContaController {
 		Investimento conta = new Investimento(numConta, saldo);
 
 		return conta;
+	}
+
+
+	public void transacoesContaContatos() {
+		BufferedReader arquivoContato = null;
+
+		try {
+			arquivoContato = new BufferedReader(new FileReader(this.nomeArquivoContas));
+
+			String linha;
+			String dados[];
+
+			while ((linha = arquivoContato.readLine()) != null) {
+				dados = linha.split("#");
+				// criar objeto Cliente
+				this.transacoesConta();
+			}
+
+			sistemaV.showMsgArquivoGerado();
+        } catch (FileNotFoundException e1) {
+        	e1.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				if (arquivoContato != null) {
+					arquivoContato.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	public void transacoesConta() {
@@ -203,5 +283,79 @@ public class ContaController {
 				sistemaV.exibeDataCriacao(data);
 			} catch (Exception e) {}
 		}
+	}
+
+	public boolean fileExists(String nomeArquivo) {
+		File f = new File(nomeArquivo);
+
+		if (f.exists() && !f.isDirectory()) {
+			return true;
+		} else {
+			return false;
+		}
+	}
+
+	private void escreveArquivoContas() {
+          BufferedWriter arquivoContas = null;
+        
+        try {
+        	arquivoContas = new BufferedWriter(
+			        			new OutputStreamWriter(
+			        					new FileOutputStream(this.nomeArquivoContas, true)
+			        					, "UTF-8"
+			        			)
+            );
+
+        	arquivoContas.write( this.cliente.getNome() );
+
+        	arquivoContas.write( "#" );
+        	arquivoContas.write( this.cliente.getConta().getClass().getSimpleName() );
+
+        	arquivoContas.write( "#" );
+			arquivoContas.write(
+					Integer.toString(
+							this.cliente.getConta().getNumConta()
+					)
+			);
+
+			arquivoContas.write( "#" );
+			arquivoContas.write(
+					Integer.toString(
+							this.cliente.getConta().getNumVerificacao()
+					)
+			);
+
+			arquivoContas.write( "#" );
+			arquivoContas.write(
+					Double.toString(
+							this.cliente.getConta().getSaldo()
+					)
+			);
+
+			if (this.cliente.getConta() instanceof Especial) {
+				arquivoContas.write( "#" );
+				arquivoContas.write(
+						Double.toString(
+								((Especial) this.cliente.getConta()).getLimite()
+								)
+						);
+			}
+
+			arquivoContas.newLine();
+        } catch (FileNotFoundException ex) {
+            ex.printStackTrace();
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        } finally {
+            try {
+                if (arquivoContas != null) {
+                	arquivoContas.flush();
+                	arquivoContas.close();
+                }
+            } catch (IOException ex) {
+                ex.printStackTrace();
+            }
+        }
+		this.cliente.getConta().getNumConta();
 	}
 }

@@ -1,6 +1,6 @@
 package com.senac.banco.model;
 
-import com.senac.agenda.model.Pessoa;
+import com.senac.contato.model.Pessoa;
 
 public class Cliente extends Pessoa{
 

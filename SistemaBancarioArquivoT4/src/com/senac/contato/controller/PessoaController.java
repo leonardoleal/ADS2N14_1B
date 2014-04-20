@@ -1,25 +1,28 @@
-package com.senac.agenda.controller;
+package com.senac.contato.controller;
 
-import java.io.BufferedOutputStream;
+import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Random;
 
-import com.senac.agenda.model.Pessoa;
-import com.senac.agenda.view.ContatoView;
+import com.senac.contato.model.Pessoa;
+import com.senac.contato.view.ContatoView;
 
 public class PessoaController {
 
 	private Pessoa[] pessoas;
+	private ContatoView contatoView;
 
-	public PessoaController() {}
+	public PessoaController() {
+		contatoView = new ContatoView();
+	}
 
 	public void mostrarInformacoesPessoas() {
-		ContatoView contatoView = new ContatoView();
 		String telefones;
 		int quantTelefones = 0;
 
@@ -34,7 +37,7 @@ public class PessoaController {
 				;
 			}
 
-			contatoView.printContato(
+			this.contatoView.printContato(
 					pessoa.getNome(),
 					telefones,
 					pessoa.getEndereco()
@@ -43,12 +46,17 @@ public class PessoaController {
 	}
 
 	public void gerarArquivoInformacoesPessoas(String nomeArquivo) {
-		BufferedOutputStream bufferedOutput = null;
+		BufferedWriter bufferedOutput = null;
 		String telefones;
 		int quantTelefones = 0;
         
         try {
-            bufferedOutput = new BufferedOutputStream(new FileOutputStream(nomeArquivo));
+            bufferedOutput = new BufferedWriter(
+			            		new OutputStreamWriter(
+			            				new FileOutputStream(nomeArquivo, true)
+			            				, "UTF-8"
+			            		)
+            );
             
     		for (Pessoa pessoa : this.pessoas) {
     			// caso haja mais de um telefone cadastrado, os exibe
@@ -61,11 +69,18 @@ public class PessoaController {
     				;
     			}
 
-    			bufferedOutput.write( pessoa.getNome().getBytes() );
-    			bufferedOutput.write( ("#" + telefones).getBytes() );
-    			bufferedOutput.write( ("#" + pessoa.getEndereco()).getBytes() );
-    			bufferedOutput.write( "\n".getBytes() );
+    			bufferedOutput.write( pessoa.getNome() );
+
+    			bufferedOutput.write( "#" );
+    			bufferedOutput.write( telefones );
+
+    			bufferedOutput.write( "#" );
+    			bufferedOutput.write( pessoa.getEndereco() );
+
+    			bufferedOutput.newLine();
     		}
+
+    		contatoView.showMsgArquivoGerado();
         } catch (FileNotFoundException ex) {
             ex.printStackTrace();
         } catch (IOException ex) {
@@ -107,9 +122,9 @@ public class PessoaController {
 	private String gerarNome() {
 		// cria array de nomes e embaralha
 		String nomes[] = {
-				"Jo„o", "Maria", "JosÈ",
-				"Matheus", "Jesus", "Abra„o",
-				"Madalena", "Cain", "Abel", "NoÈ",
+				"Jo√£o", "Maria", "Jos√©",
+				"Matheus", "Jesus", "Abra√£o",
+				"Madalena", "Cain", "Abel", "No√©",
 				"Baby", "Eva", "Dino", "Leonardo"
 		};
 
@@ -149,9 +164,9 @@ public class PessoaController {
 	private String gerarEndereco() {
 		// cria array de nomes e embaralha
 		String tipo[] = {
-				"Alameda", "Avenida", "Campo", "Ch·cara", "ColÙnia", "CondomÌnio", "Conjunto",
-				"Distrito", "Esplanada", "EstaÁ„o", "Estrada", "Favela", "Loteamento", "Morro",
-				"Parque", "PraÁa", "Residencial", "Rodovia", "Rua", "SÌtio", "Travessa", "Vale"
+				"Alameda", "Avenida", "Campo", "Ch√°cara", "Col√¥nia", "Condom√≠nio", "Conjunto",
+				"Distrito", "Esplanada", "Esta√ß√£o", "Estrada", "Favela", "Loteamento", "Morro",
+				"Parque", "Pra√ßa", "Residencial", "Rodovia", "Rua", "S√≠tio", "Travessa", "Vale"
 		};
 
 		String logradouro[] = {
@@ -162,7 +177,7 @@ public class PessoaController {
 
 		String compLogradouro[] = {
 				"de Copacabana", "Souto", "",
-				"de MarÁo", "Faria Lima", "Branco"
+				"de Mar√ßo", "Faria Lima", "Branco"
 		};
 
 		Collections.shuffle(Arrays.asList(tipo));
@@ -180,5 +195,9 @@ public class PessoaController {
 		} else {
 			return false;
 		}
+	}
+
+	public void motrarMsgArquivoExiste() {
+		contatoView.showMsgArquivoExiste();
 	}
 }

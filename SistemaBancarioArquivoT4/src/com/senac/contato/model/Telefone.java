@@ -1,4 +1,4 @@
-package com.senac.agenda.model;
+package com.senac.contato.model;
 
 public class Telefone {
 	
