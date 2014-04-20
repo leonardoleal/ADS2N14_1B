@@ -184,10 +184,6 @@ public class ContaController {
 				this.escreveArquivoContas(true);
 			}
 
-			new File(this.nomeArquivoContas).delete();
-		    new File(this.nomeArquivoContas + "~").renameTo(new File(this.nomeArquivoContas));
-
-			sistemaV.showMsgArquivoGerado();
         } catch (FileNotFoundException e1) {
         	e1.printStackTrace();
 		} catch (IOException e) {
@@ -196,6 +192,11 @@ public class ContaController {
 			try {
 				if (arquivoContato != null) {
 					arquivoContato.close();
+
+					new File(this.nomeArquivoContas).delete();
+					new File(this.nomeArquivoContas + "~").renameTo(new File(this.nomeArquivoContas));
+
+					sistemaV.showMsgArquivoGerado();
 				}
 			} catch (IOException ex) {
 				ex.printStackTrace();
