@@ -1,4 +1,6 @@
-package com.senac.vetor;
+package com.senac.vector;
+
+import java.lang.reflect.Array;
 
 public class Vector<T> {
 
@@ -34,7 +36,7 @@ public class Vector<T> {
 	public boolean append(T value) {
 	    ensureCapacity(this.size + 1);
 
-	    array[this.size] = value;
+	    this.array[this.size] = value;
 	    
 	    this.size++;
 
@@ -45,8 +47,6 @@ public class Vector<T> {
 	    ensureCapacity(this.size + 1);
 
 		Object[] arrayTemp = new Object[this.array.length];
-		System.out.println(arrayTemp.length);
-		System.out.println(array.length);
 
 		System.arraycopy(this.array, 0, arrayTemp, 0, this.array.length);
 
@@ -99,11 +99,16 @@ public class Vector<T> {
 	}
 
 	@SuppressWarnings("unchecked")
-	public Object[] getAsArray() {
-		Object[] newVector = new Object[this.size];
+	public T[] asArray() {
+	    if (this.array == null) {
+	        return null;
+	    }
 
-		System.arraycopy(array, 0, newVector, 0, size);
+	    T t = this.getValueOf(0);
+	    T[] newVector = (T[]) Array.newInstance(t.getClass(), this.getSize());
 
-		return (T[]) newVector;
+	    System.arraycopy(this.array, 0, newVector, 0, this.getSize());
+
+	    return newVector;
 	}
 }
