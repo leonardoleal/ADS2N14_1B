@@ -87,11 +87,11 @@ public class Vector<T> {
 	}
 
 	private void enlargeVector() {
-		Object[] newVector = new Object[this.array.length + 1];
+		Object[] newArray = new Object[this.array.length + 1];
 
-		System.arraycopy(this.array, 0, newVector, 0, this.array.length);
+		System.arraycopy(this.array, 0, newArray, 0, this.array.length);
 
-		this.array = newVector;
+		this.array = newArray;
 	}
 
 	public boolean isEmpty() {
@@ -105,10 +105,10 @@ public class Vector<T> {
 	    }
 
 	    T t = this.getValueOf(0);
-	    T[] newVector = (T[]) Array.newInstance(t.getClass(), this.getSize());
+	    T[] newArray = (T[]) Array.newInstance(t.getClass(), this.getSize());
 
-	    System.arraycopy(this.array, 0, newVector, 0, this.getSize());
+	    System.arraycopy(this.array, 0, newArray, 0, this.getSize());
 
-	    return newVector;
+	    return newArray;
 	}
 }
