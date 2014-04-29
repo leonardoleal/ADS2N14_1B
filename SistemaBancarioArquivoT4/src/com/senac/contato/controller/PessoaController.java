@@ -30,18 +30,14 @@ public class PessoaController {
 			// caso haja mais de um telefone cadastrado, os exibe
 			quantTelefones = pessoa.getTelefones().size();
 			telefones = "";
-			for (int i= 0; i < quantTelefones; i++) {
-				telefones += "\n\t" + pessoa.getTelefones().get(i).getTipo() + ": " +
-						"(" + pessoa.getTelefones().get(i).getCodigo() + ") " +
-						pessoa.getTelefones().get(i).getNumero()
-				;
+			for (int i = 0; i < quantTelefones; i++) {
+				telefones += "\n\t" + pessoa.getTelefones().get(i).getTipo()
+						+ ": " + "(" + pessoa.getTelefones().get(i).getCodigo()
+						+ ") " + pessoa.getTelefones().get(i).getNumero();
 			}
 
-			this.contatoView.printContato(
-					pessoa.getNome(),
-					telefones,
-					pessoa.getEndereco()
-			);
+			this.contatoView.printContato(pessoa.getNome(), telefones,
+					pessoa.getEndereco());
 		}
 	}
 
@@ -49,52 +45,51 @@ public class PessoaController {
 		BufferedWriter bufferedOutput = null;
 		String telefones;
 		int quantTelefones = 0;
-        
-        try {
-            bufferedOutput = new BufferedWriter(
-			            		new OutputStreamWriter(
-			            				new FileOutputStream(nomeArquivo, true)
-			            				, "UTF-8"
-			            		)
-            );
-            
-    		for (Pessoa pessoa : this.pessoas) {
-    			// caso haja mais de um telefone cadastrado, os exibe
-    			quantTelefones = pessoa.getTelefones().size();
-    			telefones = "";
-    			for (int i= 0; i < quantTelefones; i++) {
-    				telefones += "$" + pessoa.getTelefones().get(i).getTipo() + ": " +
-    						"(" + pessoa.getTelefones().get(i).getCodigo() + ") " +
-    						pessoa.getTelefones().get(i).getNumero()
-    				;
-    			}
 
-    			bufferedOutput.write( pessoa.getNome() );
+		File  f = new File("./data");
+		System.out.println(f.mkdirs());
 
-    			bufferedOutput.write( "#" );
-    			bufferedOutput.write( telefones );
+		try {
+			bufferedOutput = new BufferedWriter(new OutputStreamWriter(
+					new FileOutputStream(nomeArquivo, true), "UTF-8"));
 
-    			bufferedOutput.write( "#" );
-    			bufferedOutput.write( pessoa.getEndereco() );
+			for (Pessoa pessoa : this.pessoas) {
+				// caso haja mais de um telefone cadastrado, os exibe
+				quantTelefones = pessoa.getTelefones().size();
+				telefones = "";
+				for (int i = 0; i < quantTelefones; i++) {
+					telefones += "$" + pessoa.getTelefones().get(i).getTipo()
+							+ ": " + "("
+							+ pessoa.getTelefones().get(i).getCodigo() + ") "
+							+ pessoa.getTelefones().get(i).getNumero();
+				}
 
-    			bufferedOutput.newLine();
-    		}
+				bufferedOutput.write(pessoa.getNome());
 
-    		contatoView.showMsgArquivoGerado();
-        } catch (FileNotFoundException ex) {
-            ex.printStackTrace();
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } finally {
-            try {
-                if (bufferedOutput != null) {
-                    bufferedOutput.flush();
-                    bufferedOutput.close();
-                }
-            } catch (IOException ex) {
-                ex.printStackTrace();
-            }
-        }
+				bufferedOutput.write("#");
+				bufferedOutput.write(telefones);
+
+				bufferedOutput.write("#");
+				bufferedOutput.write(pessoa.getEndereco());
+
+				bufferedOutput.newLine();
+			}
+
+			contatoView.showMsgArquivoGerado();
+		} catch (FileNotFoundException ex) {
+			ex.printStackTrace();
+		} catch (IOException ex) {
+			ex.printStackTrace();
+		} finally {
+			try {
+				if (bufferedOutput != null) {
+					bufferedOutput.flush();
+					bufferedOutput.close();
+				}
+			} catch (IOException ex) {
+				ex.printStackTrace();
+			}
+		}
 	}
 
 	public void gerarInformacoesAleatorias() {
@@ -106,32 +101,21 @@ public class PessoaController {
 
 			this.pessoas[i].setNome(this.gerarNome());
 			this.pessoas[i].setEndereco(this.gerarEndereco());
-			this.pessoas[i].setTelefone(
-					this.gerarTipoTelefone(),
-					this.gerarCodigoAreaTelefone(),
-					this.gerarNumeroTelefone()
-			);
-			this.pessoas[i].setTelefone(
-					this.gerarTipoTelefone(),
-					this.gerarCodigoAreaTelefone(),
-					this.gerarNumeroTelefone()
-			);
+			this.pessoas[i].setTelefone(this.gerarTipoTelefone(),
+					this.gerarCodigoAreaTelefone(), this.gerarNumeroTelefone());
+			this.pessoas[i].setTelefone(this.gerarTipoTelefone(),
+					this.gerarCodigoAreaTelefone(), this.gerarNumeroTelefone());
 		}
 	}
 
 	private String gerarNome() {
 		// cria array de nomes e embaralha
-		String nomes[] = {
-				"João", "Maria", "José",
-				"Matheus", "Jesus", "Abraão",
-				"Madalena", "Cain", "Abel", "Noé",
-				"Baby", "Eva", "Dino", "Leonardo"
-		};
+		String nomes[] = { "João", "Maria", "José", "Matheus", "Jesus",
+				"Abraão", "Madalena", "Cain", "Abel", "Noé", "Baby", "Eva",
+				"Dino", "Leonardo" };
 
-		String sobrenomes[] = {
-				"da Silva", "de Deus", "dos Anjos",
-				"dos Santos", "dos Reis", "Silva Sauro", "Leal"
-		};
+		String sobrenomes[] = { "da Silva", "de Deus", "dos Anjos",
+				"dos Santos", "dos Reis", "Silva Sauro", "Leal" };
 
 		Collections.shuffle(Arrays.asList(nomes));
 		Collections.shuffle(Arrays.asList(sobrenomes));
@@ -140,9 +124,7 @@ public class PessoaController {
 	}
 
 	private String gerarTipoTelefone() {
-		String tiposTel[] = {
-				"Res.", "Cel.", "Trab.",
-		};
+		String tiposTel[] = { "Res.", "Cel.", "Trab.", };
 
 		Collections.shuffle(Arrays.asList(tiposTel));
 
@@ -152,33 +134,28 @@ public class PessoaController {
 	private String gerarCodigoAreaTelefone() {
 		Random rand = new Random();
 
-		return String.format("%d%d", rand.nextInt(9)+1, rand.nextInt(10));
+		return String.format("%d%d", rand.nextInt(9) + 1, rand.nextInt(10));
 	}
 
 	private String gerarNumeroTelefone() {
 		Random rand = new Random();
 
-		return String.format("%d%02d-%04d", rand.nextInt(9)+1, rand.nextInt(100), rand.nextInt(10000));
+		return String.format("%d%02d-%04d", rand.nextInt(9) + 1,
+				rand.nextInt(100), rand.nextInt(10000));
 	}
 
 	private String gerarEndereco() {
 		// cria array de nomes e embaralha
-		String tipo[] = {
-				"Alameda", "Avenida", "Campo", "Chácara", "Colônia", "Condomínio", "Conjunto",
-				"Distrito", "Esplanada", "Estação", "Estrada", "Favela", "Loteamento", "Morro",
-				"Parque", "Praça", "Residencial", "Rodovia", "Rua", "Sítio", "Travessa", "Vale"
-		};
+		String tipo[] = { "Alameda", "Avenida", "Campo", "Chácara", "Colônia",
+				"Condomínio", "Conjunto", "Distrito", "Esplanada", "Estação",
+				"Estrada", "Favela", "Loteamento", "Morro", "Parque", "Praça",
+				"Residencial", "Rodovia", "Rua", "Sítio", "Travessa", "Vale" };
 
-		String logradouro[] = {
-				"Nossa Senhora", "Brasil", "Paulista",
-				"Veira", "dos Ministerios", "25", 
-				"Brigadeiro", "Rio" 
-		};
+		String logradouro[] = { "Nossa Senhora", "Brasil", "Paulista", "Veira",
+				"dos Ministerios", "25", "Brigadeiro", "Rio" };
 
-		String compLogradouro[] = {
-				"de Copacabana", "Souto", "",
-				"de Março", "Faria Lima", "Branco"
-		};
+		String compLogradouro[] = { "de Copacabana", "Souto", "", "de Março",
+				"Faria Lima", "Branco" };
 
 		Collections.shuffle(Arrays.asList(tipo));
 		Collections.shuffle(Arrays.asList(logradouro));
