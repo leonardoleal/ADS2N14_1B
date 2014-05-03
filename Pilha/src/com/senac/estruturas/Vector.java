@@ -17,7 +17,7 @@ public class Vector<T> {
 
 	@SuppressWarnings("unchecked")
 	public T getValueOf(int index) {
-	    if (index >= this.size)
+	    if (index >= this.size || index < 0)
 	        throw new ArrayIndexOutOfBoundsException(index);
 	
 	    return (T) array[index];
