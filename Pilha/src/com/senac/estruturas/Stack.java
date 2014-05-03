@@ -1,8 +1,6 @@
-package com.senac.stack;
+package com.senac.estruturas;
 
 import java.lang.reflect.Array;
-
-import com.senac.vector.Vector;
 
 public class Stack<T> {
 
@@ -22,10 +20,11 @@ public class Stack<T> {
 	    return true;
 	}
 
-	public boolean pop() {
+	public T pop() {
+		T returnVal = this.vector.getValueOf(this.getSize() - 1);
 		this.vector.remove(this.getSize() - 1);
 
-		return true;
+		return returnVal;
 	}
 
 	public T peek() {

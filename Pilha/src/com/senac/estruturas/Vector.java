@@ -1,4 +1,4 @@
-package com.senac.vector;
+package com.senac.estruturas;
 
 import java.lang.reflect.Array;
 
