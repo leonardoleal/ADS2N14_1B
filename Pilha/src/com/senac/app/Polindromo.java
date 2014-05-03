@@ -1,4 +1,4 @@
-package com.senac.polindromo;
+package com.senac.app;
 
 import static java.lang.System.*;
 
